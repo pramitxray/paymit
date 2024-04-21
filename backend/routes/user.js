@@ -3,9 +3,10 @@ const express = require('express');
 
 const router = express.Router();
 const zod = require("zod");
-const { User } = require("../db");
+const { User, Account } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const  { authMiddleware } = require("../middleware");
 
 const signupBody = zod.object({
     username: zod.string().email(),
@@ -55,6 +56,7 @@ router.post("/signup", async (req, res) => {
     })
 })
 
+
 const signinBody = zod.object({
     username: zod.string().email(),
 	password: zod.string()
@@ -89,11 +91,6 @@ router.post("/signin", async (req, res) => {
         message: "Error while logging in"
     })
 })
-
-module.exports = router;
-
-const  { authMiddleware } = require("../middleware");
-
 
 const updateBody = zod.object({
 	password: zod.string().optional(),
@@ -142,3 +139,5 @@ router.get("/bulk", async (req, res) => {
         }))
     })
 })
+
+module.exports = router;
