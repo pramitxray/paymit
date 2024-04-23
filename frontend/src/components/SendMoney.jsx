@@ -1,40 +1,110 @@
-export const SendMoney = () => {
-    return <div class="flex justify-center h-screen bg-gray-100">
-        <div className="h-full flex flex-col justify-center">
-            <div
-                class="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg"
-            >
-                <div class="flex flex-col space-y-1.5 p-6">
-                <h2 class="text-3xl font-bold text-center">Send Money</h2>
-                </div>
-                <div class="p-6">
-                <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                    <span class="text-2xl text-white">A</span>
-                    </div>
-                    <h3 class="text-2xl font-semibold">Friend's Name</h3>
-                </div>
-                <div class="space-y-4">
-                    <div class="space-y-2">
-                    <label
-                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        for="amount"
-                    >
-                        Amount (in Rs)
-                    </label>
-                    <input
-                        type="number"
-                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                        id="amount"
-                        placeholder="Enter amount"
-                    />
-                    </div>
-                    <button class="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
-                        Initiate Transfer
-                    </button>
-                </div>
-                </div>
+import React, { useState } from "react";
+import { ImCancelCircle } from "react-icons/im";
+import Avvvatars from "avvvatars-react";
+import { usersAtom } from "../store/userAtom";
+import { useRecoilState } from "recoil";
+import toast from "react-hot-toast";
+import { transactionUpdateAtom } from "../store/accountAtom";
+import axios from "axios";
+
+const SendMoney = ({ user, setShowSetMoney }) => {
+  const { firstName, lastName, _id } = user;
+  const fullName = firstName?.charAt(0) + lastName?.charAt(0);
+
+  const [amount, setAmount] = useState(0);
+  const [sufficientBalance, setSufficientBalance] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [transactionUpdate, setTransactionUpdate] = useRecoilState(
+    transactionUpdateAtom
+  );
+
+  const transferAmount = async (amount, _id) => {
+    try {
+      const baseUrl = import.meta.env.VITE_BACKEND_URL;
+      const url = `${baseUrl}/account/transfer`;
+
+      const response = await axios.post(
+        url,
+        {
+          to: _id,
+          amount: parseInt(amount),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }
+      );
+
+      const data = response.data;
+      console.log(data);
+
+      if (data?.success) {
+        setSuccess(true);
+        setSufficientBalance(true);
+        toast.success(
+          `Amount Transferred to ${firstName?.toUpperCase()} ${lastName?.toUpperCase()} successfully`
+        );
+        setTransactionUpdate(!transactionUpdate);
+      }
+    } catch (error) {
+      if (error.response.data?.flag === "insufficient")
+        setSufficientBalance(false);
+
+      setSuccess(false);
+      toast.error(`Insufficient funds to transfer`);
+    }
+  };
+  return (
+    <div className="w-[400px] bg-slate-50 h-[350px]  py-4">
+      <div className="relative ">
+        <div className="text-3xl font-extrabold text-center pt-2">
+          Send Money
+        </div>
+        <div>
+          <ImCancelCircle
+            className="absolute right-2 top-0 w-[25px] h-[25px] opacity-50"
+            onClick={() => {
+              return setShowSetMoney((prev) => !prev);
+            }}
+          />
         </div>
       </div>
+      <div className="flex items-center gap-x-3 pt-10 text-center px-6">
+        <Avvvatars value={fullName} style="character" size={50} shadow />
+        <div className="text-lg font-bold capitalize">
+          {firstName} {lastName}
+        </div>
+      </div>
+      <div className="mt-10 flex flex-col gap-y-2">
+        <p className="text-sm font-medium px-6">Amount </p>
+        <div className="px-6">
+          <input
+            type="text"
+            className="py-1 px-2 w-full border border-slate-300"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="px-6 mt-4">
+        <button
+          className="py-2 w-full bg-green-500 hover:bg-green-600 text-white rounded-md text-sm"
+          onClick={() => transferAmount(amount, _id)}
+        >
+          Initiate Transfer
+        </button>
+        {!sufficientBalance && (
+          <p className="text-sm text-red-600">Insufficient Balance</p>
+        )}
+        {success && (
+          <p className="text-sm text-green-800">Transaction Successfull</p>
+        )}
+      </div>
     </div>
-}
+  );
+};
+
+export default SendMoney;

@@ -1,50 +1,48 @@
-import { useEffect, useState } from "react"
-import { Button } from "./Button"
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import Avvvatars from "avvvatars-react";
+import SendMoney from "./SendMoney";
 
-export const Users = () => {
-    // Replace with backend call
-    const [users, setUsers] = useState([]);
-    const [filter,setFilter]=useState("")
-    
-    useEffect(()=>{
-        axios.get("http://localhost:3000/api/v1/user/bulk")
-        .then(response=>{setUsers(response.data.user)})
-    },[filter])
+const User = ({ user }) => {
+  const { firstName, lastName, username } = user;
+  const fullastNameame = firstName.charAt(0) + lastName?.charAt(0);
+  const [showSetMoney, setShowSetMoney] = useState(false);
 
-    return <>
-        <div className="font-bold mt-6 text-lg">
-            Users
-        </div>
-        <div className="my-2">
-            <input type="text" placeholder="Search users..." className="w-full px-2 py-1 border rounded border-slate-200"></input>
+  return (
+    <div className="relative">
+      <div className="w-full flex justify-between items-center">
+        <div className="flex gap-x-2 items-center">
+          <Avvvatars
+            value={fullastNameame}
+            style="character"
+            size={50}
+            shadow
+          />
+          <div className="text-lg font-bold">
+            <span className="capitalize">{firstName}</span>{" "}
+            <span className="capitalize">{lastName}</span>{" "}
+            <span className="hidden md:flex lowercase text-sm font-extralight bg-gray-100 border border-slate-50">
+              {username}
+            </span>
+          </div>
         </div>
         <div>
-            {users.map(user => <User user={user} />)}
+          <button
+            className="w-full text-sm bg-black text-white py-3 px-2 md:px-4 rounded-md"
+            onClick={() => setShowSetMoney(!showSetMoney)}
+          >
+            Send Money
+          </button>
         </div>
-    </>
-}
-
-function User({user}) {
-    const navigate = useNavigate();
-    return <div className="flex justify-between">
-        <div className="flex">
-            <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
-                <div className="flex flex-col justify-center h-full text-xl">
-                    {user.firstName[0]}
-                </div>
-            </div>
-            <div className="flex flex-col justify-center h-ful">
-                <div>
-                    {user.firstName} {user.lastName}
-                </div>
-            </div>
+      </div>
+      {showSetMoney && (
+        <div className="overlay">
+          <div className="centered">
+            <SendMoney user={user} setShowSetMoney={setShowSetMoney} />
+          </div>
         </div>
-
-        <div className="flex flex-col justify-center h-ful">
-            <Button onClick= {(e)=>>{
-                navigate("/send?id="+user._id+"&name="+user.firstName)}}
-                label={"Send Money"} />
-        </div>
+      )}
     </div>
-}
+  );
+};
+
+export default User;
