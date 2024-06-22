@@ -1,6 +1,6 @@
-# EZPay Application
+# Paymit Application
 
-EZPay is a full-stack web application built using React for the frontend and Express for the backend. It provides users with features for signing up, signing in, and managing transactions via a dashboard. The application uses JSON Web Tokens (JWT) for authentication and MongoDB for data storage.
+Paymit is a full-stack web application built using React for the frontend and Express for the backend. It provides users with features for signing up, signing in, and managing transactions via a dashboard. The application uses JSON Web Tokens (JWT) for authentication and MongoDB for data storage.
 
 ## Table of Contents
 
@@ -34,10 +34,6 @@ EZPay is a full-stack web application built using React for the frontend and Exp
   - Mongoose: An ODM (Object Data Modeling) library for MongoDB and Node.js.
   - JSON Web Tokens (JWT): Used for user authentication and authorization.
 
-## Getting Started
-
-Follow these instructions to get the EZPay application up and running on your local machine.
-
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -55,6 +51,4 @@ JWT_SECRET=your_jwt_secret
 MONGODB_URI=your_mongodb_uri
 ```
 
-### Contributing
-Contributions are welcome! Feel free to open issues or pull requests to suggest improvements, report bugs, or add new features.
 
