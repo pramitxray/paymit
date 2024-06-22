@@ -1,6 +1,6 @@
-# EZPay Application
+# Paymit Application
 
-EZPay is a full-stack web application built using React for the frontend and Express for the backend. It provides users with features for signing up, signing in, and managing transactions via a dashboard. The application uses JSON Web Tokens (JWT) for authentication and MongoDB for data storage.
+Paymit is a full-stack web application built using React for the frontend and Express for the backend. It provides users with features for signing up, signing in, and managing transactions via a dashboard. The application uses JSON Web Tokens (JWT) for authentication and MongoDB for data storage.
 
 ## Table of Contents
 
