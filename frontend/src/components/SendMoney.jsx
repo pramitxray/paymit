@@ -26,7 +26,7 @@ const SendMoney = ({ user, setShowSetMoney }) => {
       }
 
       const isValidAmount = /^[0-9]+/.test(amount);
-      if (!isValidAmount) {
+      if (!isValidAmount || amount.includes("+") || amount.includes("-")){
           toast.error("Amount must be a valid number");
           return;
       }
