@@ -95,7 +95,7 @@ const SendMoney = ({ user, setShowSetMoney }) => {
             type="text"
             className="py-1 px-2 w-full border border-slate-300"
             placeholder="Enter amount"
-            value={amount}
+/*             value={amount} */
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
