@@ -20,6 +20,17 @@ const SendMoney = ({ user, setShowSetMoney }) => {
 
   const transferAmount = async (amount, _id) => {
     try {
+      if (parseInt(amount) <= 0) {
+      toast.error("Amount must be greater than 0");
+      return;
+      }
+
+      const isValidAmount = /^[0-9]+/.test(amount);
+      if (!isValidAmount) {
+          toast.error("Amount must be a valid number");
+          return;
+      }
+      
       const baseUrl = import.meta.env.VITE_BACKEND_URL;
       const url = `${baseUrl}/account/transfer`;
 
