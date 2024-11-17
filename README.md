@@ -1,54 +1,8 @@
-# Paymit Application
+# React + Vite
 
-Paymit is a full-stack web application built using React for the frontend and Express for the backend. It provides users with features for signing up, signing in, and managing transactions via a dashboard. The application uses JSON Web Tokens (JWT) for authentication and MongoDB for data storage.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Table of Contents
+Currently, two official plugins are available:
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Configuration](#configuration)
-- [Contributing](#contributing)
-
-
-## Features
-
-- **User Authentication**: Users can sign up and sign in securely using JWT authentication.
-- **Dashboard**: Once authenticated, users can access a dashboard displaying registered users and perform transactions.
-- **Transaction Management**: Users can send money to other registered users directly from the dashboard.
-- **Wallet Balance**: Users receive an initial amount in their wallet upon signing up.
-
-## Technologies Used
-
-- **Frontend**:
-  - React A JavaScript library for building user interfaces.
-  - React Router: For client-side routing within the React application.
-  - React Icons: Provides a set of icons for use in React applications.
-  - Avvvatars React: Generates avatar images based on user initials.
-  - React Hot Toast: Library for toast notifications in React applications.
-
-- **Backend**:
-  - Express: A Node.js web application framework for building APIs and web servers.
-  - MongoDB: A NoSQL database for storing application data.
-  - Mongoose: An ODM (Object Data Modeling) library for MongoDB and Node.js.
-  - JSON Web Tokens (JWT): Used for user authentication and authorization.
-
-### Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- Node.js
-- npm (Node Package Manager)
-- MongoDB
-
-
-### Configuration
-Create a .env file in the server directory:
-### Server Configuration
-```PORT=5000
-JWT_SECRET=your_jwt_secret
-MONGODB_URI=your_mongodb_uri
-```
-
-
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
